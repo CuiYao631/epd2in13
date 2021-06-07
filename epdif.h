@@ -30,7 +30,7 @@
 
 #include <Arduino.h>
 
-// Pin definition
+// 屏幕引脚定义
 #define RST_PIN         16
 #define DC_PIN          4
 #define CS_PIN          2

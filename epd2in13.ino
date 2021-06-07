@@ -54,40 +54,18 @@ void setup() {
 
   epd.ClearFrameMemory(0xFF);   // 位设置=白色，位重置=黑色
   
-  paint.SetRotate(ROTATE_0);
+  paint.SetRotate(ROTATE_0);//设置旋转函数
   paint.SetWidth(128);    // 宽度应为8的倍数 
   paint.SetHeight(24);
 
   /* 为简单起见，参数是显式的数值坐标 */
   paint.Clear(COLORED);
-  paint.DrawStringAt(30, 4, "Hello world!", &Font12, UNCOLORED);
+  paint.DrawStringAt(30, 4, "Hello world!", &Font12, COLORED);
   epd.SetFrameMemory(paint.GetImage(), 0, 10, paint.GetWidth(), paint.GetHeight());
 
-  paint.Clear(UNCOLORED);
-  paint.DrawStringAt(30, 4, "e-Paper Demo", &Font12, COLORED);
-  epd.SetFrameMemory(paint.GetImage(), 0, 30, paint.GetWidth(), paint.GetHeight());
-
-  paint.SetWidth(64);
-  paint.SetHeight(64);
   
-  paint.Clear(UNCOLORED);
-  paint.DrawRectangle(0, 0, 40, 50, COLORED);
-  paint.DrawLine(0, 0, 40, 50, COLORED);
-  paint.DrawLine(40, 0, 0, 50, COLORED);
-  epd.SetFrameMemory(paint.GetImage(), 16, 60, paint.GetWidth(), paint.GetHeight());
 
-  paint.Clear(UNCOLORED);
-  paint.DrawCircle(32, 32, 30, COLORED);
-  epd.SetFrameMemory(paint.GetImage(), 72, 60, paint.GetWidth(), paint.GetHeight());
-
-  paint.Clear(UNCOLORED);
-  paint.DrawFilledRectangle(0, 0, 40, 50, COLORED);
-  epd.SetFrameMemory(paint.GetImage(), 16, 130, paint.GetWidth(), paint.GetHeight());
-
-  paint.Clear(UNCOLORED);
-  paint.DrawFilledCircle(32, 32, 30, COLORED);
-  epd.SetFrameMemory(paint.GetImage(), 72, 130, paint.GetWidth(), paint.GetHeight());
-  epd.DisplayFrame();
+  
 
   delay(2000);
 
@@ -105,7 +83,7 @@ void setup() {
   epd.SetFrameMemory(IMAGE_DATA);
   epd.DisplayFrame();
 
-  time_start_ms = millis();
+  
 }
 
 void loop() {
