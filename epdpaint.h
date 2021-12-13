@@ -27,13 +27,13 @@
 #ifndef EPDPAINT_H
 #define EPDPAINT_H
 
-// 显示方向
+// Display orientation
 #define ROTATE_0            0
 #define ROTATE_90           1
 #define ROTATE_180          2
 #define ROTATE_270          3
 
-// 颜色反转。1或0= 如果设置彩色像素，则设置或重置位
+// Color inverse. 1 or 0 = set or reset a bit if set a colored pixel
 #define IF_INVERT_COLOR     1
 
 #include "fonts.h"

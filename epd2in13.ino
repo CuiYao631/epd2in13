@@ -33,9 +33,10 @@
 #define UNCOLORED   1
 
 /**
-  * 由于Arduino UNO内存不足，不允许使用帧缓冲区。
-  *在这种情况下，会分配一个较小的图像缓冲区，您必须多次更新部分显示。
-  *1字节=8像素，因此一次必须设置8*N像素。
+  * Due to RAM not enough in Arduino UNO, a frame buffer is not allowed.
+  * In this case, a smaller image buffer is allocated and you have to 
+  * update a partial display several times.
+  * 1 byte = 8 pixels, therefore you have to set 8*N pixels at a time.
   */
 unsigned char image[1024];
 Paint paint(image, 0, 0);
@@ -51,23 +52,46 @@ void setup() {
       Serial.print("e-Paper init failed");
       return;
   }
-
-  epd.ClearFrameMemory(0xFF);   // 位设置=白色，位重置=黑色
+  epd.ClearFrameMemory(0xFF);   // bit set = white, bit reset = black
+  epd.DisplayFrame();
   
-  paint.SetRotate(ROTATE_0);//设置旋转函数
-  paint.SetWidth(128);    // 宽度应为8的倍数 
-  paint.SetHeight(24);
+//  paint.SetRotate(ROTATE_0);
+//  paint.SetWidth(128);    // width should be the multiple of 8 
+//  paint.SetHeight(24);
 
-  /* 为简单起见，参数是显式的数值坐标 */
-  paint.Clear(COLORED);
-  paint.DrawStringAt(30, 4, "Hello world!", &Font12, COLORED);
-  epd.SetFrameMemory(paint.GetImage(), 0, 10, paint.GetWidth(), paint.GetHeight());
+   
+  /* For simplicity, the arguments are explicit numerical coordinates */
+  //paint.Clear(COLORED);
+//  paint.DrawStringAt(30, 4, "Hello world!", &Font12, UNCOLORED);
+//  epd.SetFrameMemory(paint.GetImage(), 0, 10, paint.GetWidth(), paint.GetHeight());
 
-  
+//  paint.Clear(UNCOLORED);
+//  paint.DrawStringAt(30, 4, "e-Paper Demo", &Font12, COLORED);
+//  epd.SetFrameMemory(paint.GetImage(), 0, 30, paint.GetWidth(), paint.GetHeight());
+//
+//  paint.SetWidth(64);
+//  paint.SetHeight(64);
+//  
+//  paint.Clear(UNCOLORED);
+//  paint.DrawRectangle(0, 0, 40, 50, COLORED);
+//  paint.DrawLine(0, 0, 40, 50, COLORED);
+//  paint.DrawLine(40, 0, 0, 50, COLORED);
+//  epd.SetFrameMemory(paint.GetImage(), 16, 60, paint.GetWidth(), paint.GetHeight());
+//
+//  paint.Clear(UNCOLORED);
+//  paint.DrawCircle(32, 32, 30, COLORED);
+//  epd.SetFrameMemory(paint.GetImage(), 72, 60, paint.GetWidth(), paint.GetHeight());
+//
+//  paint.Clear(UNCOLORED);
+//  paint.DrawFilledRectangle(0, 0, 40, 50, COLORED);
+//  epd.SetFrameMemory(paint.GetImage(), 16, 130, paint.GetWidth(), paint.GetHeight());
+//
+//  paint.Clear(UNCOLORED);
+//  paint.DrawFilledCircle(32, 32, 30, COLORED);
+//  epd.SetFrameMemory(paint.GetImage(), 72, 130, paint.GetWidth(), paint.GetHeight());
+//  epd.DisplayFrame();
 
-  
-
-  delay(2000);
+  //delay(2000);
 
   if (epd.Init(lut_partial_update) != 0) {
       Serial.print("e-Paper init failed");
@@ -75,15 +99,19 @@ void setup() {
   }
 
   /** 
-   *  电子纸显示屏中嵌入了两个存储区域一旦显示被刷新，记忆区域将被自动切换，
-   *epd.SetFrameMemory的下一个操作将设置另一个内存区域,因此，必须设置帧内存并刷新显示两次。
+   *  there are 2 memory areas embedded in the e-paper display
+   *  and once the display is refreshed, the memory area will be auto-toggled,
+   *  i.e. the next action of SetFrameMemory will set the other memory area
+   *  therefore you have to set the frame memory and refresh the display twice.
    */
+
+  //固定画面需要刷新两次底图
   epd.SetFrameMemory(IMAGE_DATA);
   epd.DisplayFrame();
   epd.SetFrameMemory(IMAGE_DATA);
   epd.DisplayFrame();
 
-  
+//  time_start_ms = millis();
 }
 
 void loop() {
@@ -101,7 +129,7 @@ void loop() {
 
   paint.Clear(UNCOLORED);
   paint.DrawStringAt(0, 4, time_string, &Font24, COLORED);
-  epd.SetFrameMemory(paint.GetImage(), 80, 72, paint.GetWidth(), paint.GetHeight());
+  epd.SetFrameMemory(paint.GetImage(), 75,140, paint.GetWidth(), paint.GetHeight());
   epd.DisplayFrame();
 
   delay(500);
